@@ -2,6 +2,8 @@ import numpy as np
 from scipy import signal
 from .utils import npbin_to_dec, get_subarray_indices, nl\
     ,TC_MSG_TYPE, CALLSIGN_CHAR, ACFT_ID_CATEGORY
+from datetime import datetime
+import time
 
 PREAMBLE = [1,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0]
 MAX_FRAME_LEN = 240
@@ -34,6 +36,23 @@ class Aircrafts:
             
     def get_icaos(self):
         return [aircraft.icao for aircraft in self.aircrafts]
+    
+    def get_current_acs(self):
+        ret = []
+        for aircraft in self.aircrafts:
+            dt = time.time() - aircraft.last_update_time
+            print(dt)
+            if dt <= 30:
+                ac = {
+                    "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "icao": aircraft.icao,
+                    "altitude": aircraft.altitude,
+                    "latitude": aircraft.latitude,
+                    "longitude": aircraft.longitude,
+                    "callsign": aircraft.callsign,
+                    "speed": 0}
+                ret.append(ac)
+        return ret
 
 class Aircraft:
     def __init__(self, MyFrame):
@@ -47,7 +66,7 @@ class Aircraft:
         self.longitude = 0
         self.LATref = LATref
         self.LONref = LONref
-        
+        self.last_update_time = 0
         self.add_frame(MyFrame)
         
     def set_callsign(self, callsign):
@@ -55,6 +74,7 @@ class Aircraft:
     
     def add_frame(self, MyFrame):
         self.frames.append(MyFrame)
+        self.last_update_time = time.time()
         if isinstance(MyFrame.msg,ACFT_ID_msg): 
             # These are the same during capture, so setting only once would \
             # suffice, but updating constantly in case of errors in reading
@@ -78,7 +98,7 @@ class Aircraft:
         m = np.fix(self.LONref/dLon) + np.fix((self.LONref%dLon)/dLon-(LONcpr+0.5))
         self.longitude = dLon*(m+LONcpr)
         self.LONref = self.longitude
-        print('Coordinates = ', self.latitude, ' , ', self.longitude)
+        #Sprint('Coordinates = ', self.latitude, ' , ', self.longitude)
         
 class Capture:
     def __init__(self, data, sample_rate):
@@ -167,6 +187,7 @@ class Frame:
         self.ca =        npbin_to_dec(self.data[13:16]) # CAPABILITY
         self.icao =      hex(npbin_to_dec(self.data[16:40])) # ICAO IDENTIFIER
         self.msgtype =   npbin_to_dec(self.data[40:45]) # MESSAGE TYPE
+        self.time = time.time()
         self.msg = self.message_factory()
         if VERBOSE:
             print(">> Isolated frame at starting position ", start_pos)
