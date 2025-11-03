@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = 'chave'
 ac_data = []
 
 # Configuração CORS para permitir conexões do React
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:5173")
+socketio = SocketIO(app, cors_allowed_origins="http://192.168.0.32:5173")
 
 # Rota básica para testar se o servidor está funcionando
 @app.route('/')

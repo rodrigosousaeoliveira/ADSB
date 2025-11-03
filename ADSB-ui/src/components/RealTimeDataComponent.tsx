@@ -72,69 +72,7 @@ const RealTimeDataComponent = () => {
     };
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
             <MapComponent acData={data}/>
-
-            {/* Controles */}
-            <div style={{ marginBottom: '20px' }}>
-                <h3>Controles:</h3>
-                <div style={{ gap: '10px', display: 'flex', flexWrap: 'wrap', marginBottom: '15px' }}>
-                    <button 
-                        onClick={() => requestData('all')}
-                        style={{ padding: '8px 16px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                        Buscar Todos os Dados
-                    </button>
-                    <button 
-                        onClick={() => requestData('weather')}
-                        style={{ padding: '8px 16px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                        Dados Meteorológicos
-                    </button>
-                    <button 
-                        onClick={() => requestData('time')}
-                        style={{ padding: '8px 16px', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                        Apenas Horário
-                    </button>
-                    <button 
-                        onClick={startBroadcast}
-                        style={{ padding: '8px 16px', backgroundColor: '#ffc107', color: 'black', border: 'none', borderRadius: '4px' }}
-                    >
-                        Iniciar Broadcast Automático
-                    </button>
-                </div>
-
-                {/* Enviar mensagem */}
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Digite uma mensagem..."
-                        style={{ padding: '8px', flex: 1, border: '1px solid #ccc', borderRadius: '4px' }}
-                        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                    />
-                    <button 
-                        onClick={sendMessage}
-                        style={{ padding: '8px 16px', backgroundColor: '#17a2b8', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                        Enviar
-                    </button>
-                </div>
-            </div>
-
-            {/* Informações específicas se disponíveis */}
-            {data && (
-                <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                    gap: '15px',
-                    marginTop: '20px'
-                }}>
-                </div>
-            )}
-        </div>
     );
 };
 
