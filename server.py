@@ -10,10 +10,29 @@ import random
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'chave'
 
+def allow_local_network(origin):
+    """Permite qualquer IP da rede local 192.168.x.x"""
+    # Lista de origens fixas
+    fixed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+    
+    if origin in fixed_origins:
+        return True
+    
+    # Verifica se é um IP da rede 192.168.x.x
+    if origin.startswith("http://192.168."):
+        # Pode adicionar validações extras aqui
+        return True
+        
+    return False
+
+
 ac_data = []
 
 # Configuração CORS para permitir conexões do React
-socketio = SocketIO(app, cors_allowed_origins="http://192.168.0.32:5173")
+socketio = SocketIO(app, cors_allowed_origins=allow_local_network)
 
 # Rota básica para testar se o servidor está funcionando
 @app.route('/')

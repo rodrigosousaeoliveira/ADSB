@@ -14,7 +14,7 @@ function App() {
     console.log(item);
   }
   return <div className='app-container'>
-  <ListGroup items={items} heading={'AIRCRAFT DATA'} onSelectItem={handleSelectItem}/>
+  {/*<ListGroup items={items} heading={'AIRCRAFT DATA'} onSelectItem={handleSelectItem}/>*/}
   <RealTimeDataComponent/>
   </div>
   }

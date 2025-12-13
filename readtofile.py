@@ -5,6 +5,7 @@ import requests
 import json
 import time
 import threading
+import numpy as np
 
 acs = Aircrafts()
 
@@ -69,6 +70,8 @@ def process_signals():
             print("|  ME  | *Message Type:        ", frame.msgtype,
                   " ", TC_MSG_TYPE[frame.msgtype])
             print(frame.msg)
+            name = str(sdr.sample_rate) + '_' + timestamp + '.npy'
+            #np.save(name, x)
         del recording
         t3 = time.time()
         plotevery +=1

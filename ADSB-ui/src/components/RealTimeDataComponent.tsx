@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapComponent from './MapComponent';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+const socket = io('http://192.168.0.32:3001');
 const acData0 = [{altitude:3000,callsign:"TEST123",icao:"ABCDEF",latitude:46.1,longitude:14.5,speed:250}];
 
 const RealTimeDataComponent = () => {
