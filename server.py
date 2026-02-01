@@ -124,4 +124,4 @@ if __name__ == '__main__':
     print("Frontend deve conectar em: http://localhost:3001")
     
     # Inicia o servidor
-    socketio.run(app, host='0.0.0.0', port=3001, debug=True)
+    socketio.run(app, host='192.168.12.1', port=3001, debug=True)

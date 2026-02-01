@@ -17,7 +17,7 @@ def send_updates():
         print("Sending Updates...")
         print(send)
         response = requests.post(
-            'http://localhost:3001/api/senddata',
+            'http://192.168.12.1:3001/api/senddata',
             json=send,  # O requests converte automaticamente para JSON
             headers={'Content-Type': 'application/json'},
             timeout=10  # Timeout de 10 segundos
@@ -39,7 +39,7 @@ def process_signals():
         capture_time = datetime.now()
         timestamp = capture_time.strftime("%Y%m%d_%H%M%S")
         t0 = time.time()
-        x = sdr.read_samples(1.5e4)[2000:]
+        x = sdr.read_samples(16384)[2048:]
         time.sleep(0.01)
         t1 = time.time()
         #sdr.close()
